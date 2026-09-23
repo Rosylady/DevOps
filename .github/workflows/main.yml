@@ -17,12 +17,12 @@ jobs:
         run: |
           docker network create --driver bridge se-methodsupdate
           docker pull mongo
-          docker run -d --name mongo-dbserverupdate --network se-methodsupdate mongo
+          docker run -d --name mongo-dbserver --network se-methodsupdate mongo
       - name: Build with Maven
         run: mvn package
       - name: Build
         run: docker build -t se_methodsupdate .
       - name: Run image
-        run: docker run --network se-methodsupdate --name DevOps se-methodsupdate
+        run: docker run --network se-methodsupdate --name mongo-dbserver se-methodsupdate
       - name: view logs
-        run: docker logs DevOps
+        run: docker logs mongo-dbserver
