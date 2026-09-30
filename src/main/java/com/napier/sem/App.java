@@ -1,6 +1,6 @@
 package com.napier.sem;
 
-import com.napier.devops.Employee;
+import com.napier.sem.Employee;
 
 import java.sql.*;
 
