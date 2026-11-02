@@ -3,6 +3,7 @@ package com.napier.sem;
 import com.napier.sem.Employee;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class App {
 
@@ -131,4 +132,27 @@ public class App {
             }
         }
     }
+
+     public void printSalaries(ArrayList<Employee> employees) {
+        if (employees == null || employees.isEmpty()) {
+            System.out.println("No employees");
+            return;
+        }
+
+        System.out.printf("%-10s %-15s %-20s %-10s%n",
+                "Emp No", "First Name", "Last Name", "Salary");
+
+        for (Employee emp : employees) {
+            if (emp == null) {
+                continue;
+            }
+
+            System.out.printf("%-10d %-15s %-20s %.2f%n",
+                    emp.emp_no,
+                    emp.first_name,
+                    emp.last_name,
+                    emp.salary);
+        }
+    }
+
 }

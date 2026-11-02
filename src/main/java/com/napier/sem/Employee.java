@@ -1,12 +1,9 @@
 package com.napier.sem;
 
 /**
- * Represents an employee
+ * Represents an employee.
  */
-
 public class Employee {
-
-
 
     /**
      * Employee number
@@ -31,7 +28,7 @@ public class Employee {
     /**
      * Employee's salary
      */
-    public int salary;
+    public double salary;
 
     /**
      * Employee's current department
@@ -42,5 +39,5 @@ public class Employee {
      * Employee's manager
      */
     public String manager;
-}
 
+}
