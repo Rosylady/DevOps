@@ -8,18 +8,85 @@ import java.util.ArrayList;
 public class App {
 
     public static void main(String[] args) {
-        // Create new Application
+
+        // Create new Application and connect to database
         App a = new App();
- 
-        // Connect to database
-        a.connect();
-         //Get Employee
-        Employee emp = a.getEmployee(25530);
-        //Display results
-        a.displayEmployee(emp);
+
+        if (args.length < 2) {
+            a.connect("localhost:33060", 30000);
+        } else {
+            a.connect(args[0], Integer.parseInt(args[1]));
+        }
+
+        // Get Development department
+        Department dept = a.getDepartment("Development");
+
+        // Get employees' salaries
+        ArrayList<Employee> employees = a.getSalariesByDepartment(dept);
+
+        // Print salary report
+        a.printSalaries(employees);
 
         // Disconnect from database
         a.disconnect();
+    }
+
+    public ArrayList<Employee> getSalariesByDepartment(Department dept) {
+
+        ArrayList<Employee> employees = new ArrayList<>();
+        String sql = "SELECT e.emp_no, e.first_name, e.last_name, s.salary " +
+                "FROM employees e " +
+                "JOIN dept_emp de ON e.emp_no = de.emp_no " +
+                "JOIN salaries s ON e.emp_no = s.emp_no " +
+                "WHERE de.dept_no = ?";
+
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, dept.dept_no);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Employee emp = new Employee();
+
+                emp.emp_no = rs.getInt("emp_no");
+                emp.first_name = rs.getString("first_name");
+                emp.last_name = rs.getString("last_name");
+                emp.salary = rs.getInt("salary");
+
+                employees.add(emp);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return employees;
+    }
+
+    public Department getDepartment(String departmentName) {
+
+        Department dept = null;
+
+        String sql = "SELECT dept_no, dept_name FROM departments WHERE dept_name = ?";
+
+        try {
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, departmentName);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                dept = new Department();
+                dept.dept_no = rs.getString("dept_no");
+                dept.dept_name = rs.getString("dept_name");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return dept;
     }
 
     public Employee getEmployee(int ID)
@@ -56,6 +123,8 @@ public class App {
         }
     }
 
+
+
     public void displayEmployee(Employee emp)
     {
         if (emp != null)
@@ -70,6 +139,8 @@ public class App {
                             + "Manager: " + emp.manager + "\n");
         }
     }
+
+
     /**
      * Connection to MySQL database.
      */
@@ -81,39 +152,31 @@ public class App {
     /**
      * Connect to the MySQL database.
      */
-    public void connect()
-    {
-        try
-        {
+    public void connect(String location, int delay) {
+        try {
             // Load Database driver
             Class.forName("com.mysql.cj.jdbc.Driver");
-        }
-        catch (ClassNotFoundException e)
-        {
+        } catch (ClassNotFoundException e) {
             System.out.println("Could not load SQL driver");
             System.exit(-1);
         }
 
-        int retries = 15;
-        for (int i = 0; i < retries; ++i)
-        {
+        int retries = 10;
+        for (int i = 0; i < retries; ++i) {
             System.out.println("Connecting to database...");
-            try
-            {
+            try {
                 // Wait a bit for db to start
-                Thread.sleep(30000);
+                Thread.sleep(delay);
                 // Connect to database
-                con = DriverManager.getConnection("jdbc:mysql://db:3306/employees?allowPublicKeyRetrieval=true&useSSL=false", "root", "example");
+                con = DriverManager.getConnection("jdbc:mysql://" + location
+                                + "/employees?allowPublicKeyRetrieval=true&useSSL=false",
+                        "root", "example");
                 System.out.println("Successfully connected");
                 break;
-            }
-            catch (SQLException sqle)
-            {
-                System.out.println("Failed to connect to database attempt " + Integer.toString(i));
+            } catch (SQLException sqle) {
+                System.out.println("Failed to connect to database attempt " +                                  Integer.toString(i));
                 System.out.println(sqle.getMessage());
-            }
-            catch (InterruptedException ie)
-            {
+            } catch (InterruptedException ie) {
                 System.out.println("Thread interrupted? Should not happen.");
             }
         }

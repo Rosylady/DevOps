@@ -36,32 +36,20 @@
             <!-- Java compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.14.0</version>
-                <configuration>
-                    <source>26</source>
-                    <target>26</target>
-                </configuration>
-            </plugin>
-
-            <!-- Create executable JAR with dependencies -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.7.1</version>
-
+                <version>3.3.0</version>
                 <configuration>
+                    <finalName>devops</finalName>
                     <archive>
                         <manifest>
                             <mainClass>com.napier.sem.App</mainClass>
                         </manifest>
                     </archive>
-
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                </configuration>
 
+                </configuration>
                 <executions>
                     <execution>
                         <id>make-assembly</id>
@@ -71,9 +59,7 @@
                         </goals>
                     </execution>
                 </executions>
-
             </plugin>
-
         </plugins>
     </build>
 
