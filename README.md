@@ -8,3 +8,4 @@ Hello Rosy!!!
 * Develop Branch Status ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/Rosylady/DevOps/main.yml?branch=develop)
 * License [![LICENSE](https://img.shields.io/github/license/Rosylady/DevOps.svg?style=flat-square)](https://github.com/Rosylady/DevOps/blob/master/LICENSE)
 * Release [![Releases](https://img.shields.io/github/release/Rosylady/DevOps/all.svg?style=flat-square)](https://github.com/Rosylady/DevOps/releases)
+* [![codecov](https://codecov.io/github/Rosylady/DevOps/graph/badge.svg?token=UT6CYCWVP0)](https://codecov.io/github/Rosylady/DevOps)
