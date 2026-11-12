@@ -4,8 +4,8 @@ LABEL authors="HP"
 
 WORKDIR /tmp
 
-COPY ./target/seMethods-0.1.0.2.jar .
+COPY ./target/sem.jar .
 
-ENTRYPOINT ["java", "-jar", "seMethods-0.1.0.2.jar", "db:3306", "30000"]
+ENTRYPOINT ["java", "-jar", "sem.jar", "db:3306", "30000"]
 
 
