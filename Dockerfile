@@ -1,7 +1,11 @@
 FROM eclipse-temurin:26
+
 LABEL authors="HP"
-COPY ./target/devops-jar-with-dependencies.jar /tmp
+
 WORKDIR /tmp
-ENTRYPOINT ["java", "-jar", "devops-jar-with-dependencies.jar","db:3306","30000"]
+
+COPY ./target/seMethods-0.1.0.2.jar .
+
+ENTRYPOINT ["java", "-jar", "seMethods-0.1.0.2.jar", "db:3306", "30000"]
 
 
